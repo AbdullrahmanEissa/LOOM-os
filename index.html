@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LooM OS by CoreLoom | Engineered for DevOps</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #0f172a; 
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --coreloom-blue: #3b82f6;
+            --coreloom-blue-hover: #2563eb;
+            --coreloom-neon: #60a5fa;
+            --terminal-green: #10b981;
+            --card-bg: #1e293b;
+            --section-alt: #0b1120;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background-color: var(--bg-color); color: var(--text-main); line-height: 1.6; overflow-x: hidden; position: relative; }
+
+        /* --- Animated CI/CD Pipeline Background --- */
+        .cicd-bg {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            z-index: -1; overflow: hidden; pointer-events: none;
+            background-image: linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+            background-size: 50px 50px;
+        }
+        .pipeline {
+            position: absolute; height: 2px; width: 300px;
+            background: linear-gradient(90deg, transparent, var(--coreloom-blue), transparent);
+            opacity: 0.4; filter: blur(1px);
+            animation: flow 7s linear infinite;
+        }
+        .p1 { top: 15%; left: -300px; animation-duration: 8s; }
+        .p2 { top: 45%; right: -300px; animation-name: flow-reverse; animation-duration: 12s; }
+        .p3 { top: 75%; left: -300px; animation-duration: 10s; animation-delay: 2s; }
+        
+        @keyframes flow { 0% { transform: translateX(-100vw); } 100% { transform: translateX(100vw); } }
+        @keyframes flow-reverse { 0% { transform: translateX(100vw); } 100% { transform: translateX(-100vw); } }
+
+        /* --- Branding --- */
+        .brand-container { display: flex; align-items: center; gap: 12px; }
+        .logo-loom { font-family: 'Fira Code', monospace; font-weight: 800; font-size: 1.6rem; letter-spacing: -1px; display: flex; align-items: center; }
+        .logo-loom .os { color: var(--coreloom-blue); background: rgba(59, 130, 246, 0.1); padding: 2px 6px; border-radius: 4px; margin-left: 4px; }
+        .by-text { font-size: 0.8rem; color: var(--text-muted); font-weight: 300; font-style: italic; margin-top: 4px; }
+        .logo-coreloom { display: flex; align-items: center; gap: 6px; font-weight: 800; font-size: 1.2rem; color: var(--text-main); letter-spacing: 1px; }
+        .logo-coreloom svg { width: 24px; height: 24px; fill: none; stroke: var(--coreloom-neon); stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; }
+        .logo-coreloom span { color: var(--coreloom-neon); }
+
+        /* Navbar */
+        nav { display: flex; justify-content: space-between; padding: 1.5rem 5%; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.05); background: rgba(15, 23, 42, 0.8); backdrop-filter: blur(12px); position: sticky; top: 0; z-index: 100; }
+        .nav-links a { color: var(--text-muted); text-decoration: none; font-weight: 600; transition: color 0.3s; }
+        .nav-links a:hover { color: var(--text-main); }
+
+        /* Hero Section */
+        .hero { text-align: center; padding: 7rem 1rem 4rem; max-width: 900px; margin: 0 auto; position: relative; z-index: 2; }
+        .hero h1 { font-size: 4rem; font-weight: 800; margin-bottom: 1.5rem; line-height: 1.1; letter-spacing: -1px; }
+        .hero h1 span { background: -webkit-linear-gradient(45deg, var(--coreloom-blue), #2dd4bf); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .hero p { font-size: 1.25rem; color: var(--text-muted); margin-bottom: 2rem; max-width: 700px; margin-inline: auto; }
+
+        .btn { display: inline-block; background-color: var(--coreloom-blue); color: white; padding: 1rem 2.5rem; border-radius: 8px; text-decoration: none; font-weight: 600; font-size: 1.1rem; transition: all 0.3s; box-shadow: 0 4px 14px 0 rgba(59, 130, 246, 0.39); }
+        .btn:hover { background-color: var(--coreloom-blue-hover); transform: translateY(-2px); box-shadow: 0 6px 20px rgba(59, 130, 246, 0.5); }
+        .btn-outline { background-color: transparent; border: 2px solid var(--text-muted); margin-left: 1rem; box-shadow: none; }
+        .btn-outline:hover { border-color: var(--text-main); background-color: rgba(255,255,255,0.05); color: white; transform: translateY(-2px); }
+
+        .checksum-container { margin-top: 1.5rem; font-size: 0.9rem; }
+        .checksum-link { color: var(--text-muted); text-decoration: none; display: inline-flex; align-items: center; gap: 5px; transition: color 0.3s; }
+        .checksum-link:hover { color: var(--coreloom-neon); text-decoration: underline; }
+
+        /* Mockup Placeholder */
+        .mockup-container { max-width: 1000px; margin: 0 auto 3rem; padding: 0 1rem; text-align: center; position: relative; z-index: 2; }
+        .mockup-container img { width: 100%; max-width: 850px; border-radius: 12px; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8); border: 1px solid rgba(255,255,255,0.1); }
+
+        /* --- Showcase Section (Interface & Terminal) --- */
+        .showcase-section { padding: 4rem 5% 6rem; max-width: 1200px; margin: 0 auto; text-align: center; position: relative; z-index: 2; }
+        .showcase-title { font-size: 2rem; font-weight: 800; margin-bottom: 3rem; text-transform: uppercase; letter-spacing: 1px; color: var(--text-muted); }
+        .showcase-title span { color: var(--text-main); }
+        .showcase-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; }
+        .showcase-item { background: var(--card-bg); padding: 1rem; border-radius: 12px; border: 1px solid rgba(255,255,255,0.05); transition: transform 0.3s, box-shadow 0.3s; }
+        .showcase-item:hover { transform: translateY(-5px); box-shadow: 0 20px 40px rgba(0,0,0,0.4); border-color: var(--coreloom-blue); }
+        .showcase-item img { width: 100%; border-radius: 8px; border: 1px solid rgba(0,0,0,0.5); margin-bottom: 1rem; }
+        .showcase-item h4 { color: var(--coreloom-neon); font-family: 'Fira Code', monospace; font-size: 1.1rem; }
+        @media (max-width: 900px) { .showcase-grid { grid-template-columns: 1fr; } }
+
+        /* --- Trusted Partners Section --- */
+        .partners-section { padding: 3rem 1rem 5rem; text-align: center; border-bottom: 1px solid rgba(255,255,255,0.05); background: linear-gradient(180deg, transparent, rgba(15, 23, 42, 0.8)); position: relative; z-index: 2; }
+        .partners-title { font-size: 1.2rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 2.5rem; font-weight: 600; }
+        
+        .partners-grid { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 4rem; max-width: 1000px; margin: 0 auto; }
+        
+        .partner-logo { display: flex; align-items: center; gap: 10px; font-weight: 800; font-size: 1.5rem; color: #ffffff; opacity: 0.8; transition: all 0.3s; animation: float 6s ease-in-out infinite; }
+        .partner-logo:hover { opacity: 1; transform: scale(1.05); text-shadow: 0 0 15px rgba(255,255,255,0.3); }
+        .partner-logo svg { width: 40px; height: 40px; fill: #ffffff; }
+        
+        .partner-logo:nth-child(1) { animation-delay: 0s; }
+        .partner-logo:nth-child(2) { animation-delay: 1s; }
+        .partner-logo:nth-child(3) { animation-delay: 2s; }
+
+        @keyframes float { 0% { transform: translateY(0px); } 50% { transform: translateY(-10px); } 100% { transform: translateY(0px); } }
+
+        .community-badge { margin-top: 3.5rem; display: inline-block; background: rgba(59, 130, 246, 0.1); border: 1px solid rgba(59, 130, 246, 0.3); padding: 0.8rem 2rem; border-radius: 50px; color: var(--text-main); font-size: 1rem; box-shadow: 0 0 20px rgba(59, 130, 246, 0.1); }
+        .community-badge span { color: var(--coreloom-neon); font-weight: 600; }
+
+        /* Section Global */
+        .section-title { text-align: center; font-size: 2.5rem; font-weight: 800; margin-bottom: 3rem; }
+        .section-title span { color: var(--coreloom-blue); }
+
+        /* Features Section */
+        .features { background-color: var(--section-alt); padding: 6rem 5%; border-top: 1px solid rgba(255,255,255,0.02); border-bottom: 1px solid rgba(255,255,255,0.02); position: relative; z-index: 2; }
+        .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; max-width: 1200px; margin: 0 auto; }
+        .feature-card { background-color: var(--card-bg); padding: 2.5rem; border-radius: 12px; border: 1px solid rgba(255,255,255,0.05); transition: transform 0.3s, border-color 0.3s; }
+        .feature-card:hover { transform: translateY(-5px); border-color: var(--coreloom-blue); }
+        .feature-card h3 { margin-bottom: 1rem; color: var(--text-main); font-size: 1.3rem; display: flex; align-items: center; gap: 10px; }
+        .feature-card p { color: var(--text-muted); font-size: 1rem; }
+
+        /* Tech Stack Section */
+        .tech-stack { padding: 6rem 5%; max-width: 1000px; margin: 0 auto; text-align: center; position: relative; z-index: 2; }
+        .stack-pills { display: flex; flex-wrap: wrap; justify-content: center; gap: 1rem; margin-top: 2rem; }
+        .pill { background: var(--card-bg); border: 1px solid rgba(255,255,255,0.1); padding: 0.8rem 1.5rem; border-radius: 50px; font-weight: 600; color: var(--text-muted); transition: all 0.3s; }
+        .pill:hover { background: rgba(59, 130, 246, 0.1); border-color: var(--coreloom-blue); color: var(--coreloom-neon); transform: scale(1.05); }
+
+        /* Terminal Snippet */
+        .terminal-container { padding: 4rem 1rem; background-color: var(--section-alt); position: relative; z-index: 2; }
+        .terminal-section { background-color: #000; max-width: 800px; margin: 0 auto; border-radius: 10px; overflow: hidden; border: 1px solid #333; box-shadow: 0 20px 40px rgba(0,0,0,0.4); }
+        .terminal-header { background-color: #1a1a1a; padding: 0.75rem 1rem; display: flex; gap: 8px; border-bottom: 1px solid #333; }
+        .dot { width: 12px; height: 12px; border-radius: 50%; }
+        .dot.red { background-color: #ff5f56; }
+        .dot.yellow { background-color: #ffbd2e; }
+        .dot.green { background-color: #27c93f; }
+        .terminal-body { padding: 2rem; font-family: 'Fira Code', monospace; color: var(--terminal-green); font-size: 1rem; line-height: 1.8; }
+
+        /* Install Guide */
+        .install-guide { padding: 6rem 5%; max-width: 800px; margin: 0 auto; position: relative; z-index: 2; }
+        .step { display: flex; margin-bottom: 2rem; background: var(--card-bg); padding: 1.5rem; border-radius: 12px; border: 1px solid rgba(255,255,255,0.05); }
+        .step-num { background: var(--coreloom-blue); color: white; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 1.2rem; flex-shrink: 0; margin-right: 1.5rem; }
+        .step-content h4 { font-size: 1.2rem; margin-bottom: 0.5rem; }
+        .step-content p { color: var(--text-muted); }
+        .step-content code { background: #000; padding: 0.2rem 0.5rem; border-radius: 4px; color: var(--coreloom-neon); font-family: 'Fira Code', monospace; font-size: 0.9rem; }
+
+        /* CTA Section */
+        .cta-section { text-align: center; padding: 6rem 1rem; background: linear-gradient(180deg, var(--bg-color) 0%, rgba(59, 130, 246, 0.05) 100%); position: relative; z-index: 2; }
+        .cta-section h2 { font-size: 2.5rem; margin-bottom: 1.5rem; }
+
+        /* Footer */
+        footer { text-align: center; padding: 4rem 1rem; color: var(--text-muted); border-top: 1px solid rgba(255,255,255,0.05); background-color: #050810; position: relative; z-index: 2; }
+        .footer-logo { display: flex; justify-content: center; margin-bottom: 1.5rem; }
+        footer p { font-size: 0.9rem; margin-bottom: 0.5rem; }
+
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2.8rem; }
+            .btn-outline { margin-left: 0; margin-top: 1rem; display: block; }
+            .brand-container { flex-direction: column; align-items: flex-start; gap: 2px; }
+            .by-text { display: none; }
+            .partners-grid { gap: 2rem; flex-direction: column; }
+            .showcase-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="cicd-bg">
+        <div class="pipeline p1"></div>
+        <div class="pipeline p2"></div>
+        <div class="pipeline p3"></div>
+    </div>
+
+    <nav>
+        <div class="brand-container">
+            <div class="logo-loom">LooM<span class="os">OS</span></div>
+            <span class="by-text">by</span>
+            <div class="logo-coreloom">
+                <svg viewBox="0 0 24 24">
+                    <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+                </svg>
+                Core<span>Loom</span>
+            </div>
+        </div>
+        <div class="nav-links">
+            <a href="https://github.com/AbdullrahmanEissa" target="_blank">Developer GitHub</a>
+        </div>
+    </nav>
+
+    <header class="hero">
+        <h1>Engineered for <span>DevOps</span> & Power Users.</h1>
+        <p>A blazingly fast, lightweight Linux distribution built on a stable Debian Core. Pre-configured with i3wm, Docker, and the exclusive LinUtil toolkit to drastically cut down your setup time.</p>
+        
+        <div class="cta-buttons">
+            <a href="YOUR_ISO_LINK_HERE" class="btn">Download v1.0 (4.5GB)</a>
+            <a href="#features" class="btn btn-outline">Explore Features</a>
+        </div>
+        
+        <div class="checksum-container">
+            <a href="YOUR_SHA256_LINK_HERE" class="checksum-link" target="_blank" download>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path><polyline points="12 15 17 21 23 9"></polyline></svg>
+                Verify Checksum (SHA256)
+            </a>
+        </div>
+    </header>
+
+    <div class="mockup-container">
+        <img src="assets/images/mockup.png" alt="LooM OS Interface">
+    </div>
+
+    <section class="showcase-section">
+        <h2 class="showcase-title">Created By <span>Engineers</span>, For <span>Engineers</span></h2>
+        
+        <div class="showcase-grid">
+            <div class="showcase-item">
+                <img src="assets/images/interface.png" alt="LooM OS i3wm Workspace">
+                <h4>[ i3wm Workspace ]</h4>
+            </div>
+
+            <div class="showcase-item">
+                <img src="assets/images/terminal.png" alt="LooM OS Alacritty & LinUtil">
+                <h4>[ Alacritty & LinUtil ]</h4>
+            </div>
+        </div>
+    </section>
+
+    <section class="partners-section">
+        <h3 class="partners-title">Trusted By Leading Tech Partners</h3>
+        <div class="partners-grid">
+            
+            <div class="partner-logo">
+                <svg viewBox="0 0 24 24">
+                    <polygon points="12 2 22 8.5 22 15.5 12 22 2 15.5 2 8.5 12 2" fill="none" stroke="#fff" stroke-width="2"/>
+                    <polyline points="12 22 12 12 22 8.5" fill="none" stroke="#fff" stroke-width="2"/>
+                    <polyline points="12 12 2 8.5" fill="none" stroke="#fff" stroke-width="2"/>
+                </svg>
+                Limatrix INC
+            </div>
+
+            <div class="partner-logo">
+                <svg viewBox="0 0 24 24">
+                    <path d="M12 21C16.9706 21 21 16.9706 21 12C21 7.02944 16.9706 3 12 3C7.02944 3 3 7.02944 3 12C3 16.9706 7.02944 21 12 21Z" fill="none" stroke="#fff" stroke-width="2"/>
+                    <path d="M9 3C9 3 6 8 9 12" fill="none" stroke="#fff" stroke-width="2"/>
+                    <path d="M15 3C15 3 18 8 15 12" fill="none" stroke="#fff" stroke-width="2"/>
+                    <circle cx="16" cy="10" r="1" fill="#fff"/>
+                </svg>
+                CodeBEE
+            </div>
+
+            <div class="partner-logo">
+                <svg viewBox="0 0 24 24">
+                    <path d="M22 4C22 4 18 6 15 9C12 12 9 16 4 18C4 18 9 19 13 17C17 15 20 10 22 4Z" fill="#fff"/>
+                    <path d="M15 9C15 9 12 5 8 3C8 3 10 7 12 10" fill="#fff" opacity="0.6"/>
+                </svg>
+                Bird Hosting Solutions
+            </div>
+
+        </div>
+
+        <div class="community-badge">
+            Powered by a global community of programmers from 
+            <span>Egypt</span>, <span>Saudi Arabia</span>, and <span>Morocco</span>.
+        </div>
+    </section>
+
+    <section id="features" class="features">
+        <h2 class="section-title">Built for <span>Productivity</span></h2>
+        <div class="features-grid">
+            <div class="feature-card">
+                <h3><span class="icon">🛠️</span> DevOps-Ready Stack</h3>
+                <p>Skip the tedious initial setup. Docker, Docker Compose, Terraform, Ansible, and Netdata are pre-installed, secured, and optimized out of the box.</p>
+            </div>
+            <div class="feature-card">
+                <h3><span class="icon">⚡</span> Pure i3wm Experience</h3>
+                <p>A pure, keyboard-centric workflow. No heavy desktop environments. Paired with Alacritty and Zsh (autosuggestions enabled) for maximum terminal productivity.</p>
+            </div>
+            <div class="feature-card">
+                <h3><span class="icon">🛡️</span> The LinUtil Toolkit</h3>
+                <p>Our exclusive enterprise CLI utility. Deep clean your system, prune Docker containers, and diagnose SELinux policies with a single, simple command.</p>
+            </div>
+            <div class="feature-card">
+                <h3><span class="icon">🚀</span> Ultra Lightweight</h3>
+                <p>By stripping away unnecessary GUI elements and background services, LooM OS boots faster and leaves more RAM and CPU for your containers and compilations.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="tech-stack">
+        <h2 class="section-title">Powered by <span>Industry Standards</span></h2>
+        <p style="color: var(--text-muted); font-size: 1.1rem; margin-bottom: 2rem;">LooM OS stands on the shoulders of giants. We've curated the best tools so you don't have to.</p>
+        <div class="stack-pills">
+            <div class="pill">Debian 12 Core</div>
+            <div class="pill">i3 Window Manager</div>
+            <div class="pill">Docker Engine</div>
+            <div class="pill">Terraform</div>
+            <div class="pill">Ansible</div>
+            <div class="pill">Alacritty Terminal</div>
+            <div class="pill">Zsh & Oh-My-Zsh</div>
+            <div class="pill">Netdata Monitoring</div>
+        </div>
+    </section>
+
+    <div class="terminal-container">
+        <h2 class="section-title" style="margin-bottom: 2rem;">Meet <span>LinUtil</span></h2>
+        <div class="terminal-section">
+            <div class="terminal-header">
+                <div class="dot red"></div><div class="dot yellow"></div><div class="dot green"></div>
+            </div>
+            <div class="terminal-body">
+                <span style="color: var(--text-muted);">user@loom-os:~$</span> sudo linutil<br><br>
+                <span style="color: var(--coreloom-blue);">[LinUtil v2.5]</span> Loading enterprise modules...<br>
+                <span style="color: #fff;">1.</span> System Deep Clean & Archive Purge<br>
+                <span style="color: #fff;">2.</span> Docker Janitor (Volumes & Images)<br>
+                <span style="color: #fff;">3.</span> Active Port Sniper<br>
+                <span style="color: #fff;">4.</span> SELinux Policy Doctor<br>
+                <span style="color: #fff;">5.</span> System Resource Monitor<br><br>
+                <span style="color: var(--text-muted);"># Built by CoreLoom. Built for speed.</span>
+            </div>
+        </div>
+    </div>
+
+    <section class="install-guide">
+        <h2 class="section-title">How to <span>Install</span></h2>
+        <div class="step">
+            <div class="step-num">1</div>
+            <div class="step-content">
+                <h4>Download & Flash</h4>
+                <p>Download the ISO image and use a tool like Rufus or BalenaEtcher to flash it onto a USB drive (minimum 8GB recommended).</p>
+            </div>
+        </div>
+        <div class="step">
+            <div class="step-num">2</div>
+            <div class="step-content">
+                <h4>Boot & Explore</h4>
+                <p>Boot your machine from the USB. You will instantly enter the Live LooM OS environment. Press <code>Alt + Enter</code> to open your terminal.</p>
+            </div>
+        </div>
+        <div class="step">
+            <div class="step-num">3</div>
+            <div class="step-content">
+                <h4>Permanent Installation</h4>
+                <p>Ready to commit? In the terminal, simply run <code>sudo debian-installer-launcher</code> and follow the standard Debian graphical installer to write it to your disk.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="cta-section">
+        <h2>Ready to upgrade your workflow?</h2>
+        <p style="color: var(--text-muted); margin-bottom: 2rem; max-width: 600px; margin-inline: auto;">Join the next generation of System Administrators and Cloud Engineers who demand efficiency over bloated desktop environments.</p>
+        <div class="cta-buttons">
+            <a href="YOUR_ISO_LINK_HERE" class="btn">Download LooM OS Now</a>
+        </div>
+        <div class="checksum-container" style="margin-top: 1rem;">
+            <a href="https://downloads.sourceforge.net/project/loom-os/loom-os-v1/loom-v1-sha256.md5" class="checksum-link" target="_blank" download>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path><polyline points="12 15 17 21 23 9"></polyline></svg>
+                Verify SHA256 Checksum
+            </a>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-logo">
+            <div class="logo-coreloom" style="font-size: 1rem;">
+                <svg viewBox="0 0 24 24" style="width: 20px; height: 20px;">
+                    <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+                </svg>
+                Core<span>Loom</span>
+            </div>
+        </div>
+        <p>&copy; 2026-2027 CoreLoom & Abdullrahman Eissa. All Rights Reserved.</p>
+        <p style="opacity: 0.6;">LooM OS is licensed under the GNU General Public License v3.0 (GPLv3).</p>
+    </footer>
+
+</body>
+</html>
